@@ -25,11 +25,10 @@ const NAV = [
 const Logo = () => (
   <div className="flex items-center gap-2.5">
     <div className="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center shrink-0">
-      <span className="text-white text-xs font-black">C</span>
+      <span className="text-white text-xs font-black">L</span>
     </div>
     <div className="hidden sm:block">
-      <div className="text-sm font-bold text-gray-900 leading-none">CMS</div>
-      <div className="text-[10px] text-gray-400 leading-none mt-0.5">Catalog Management System</div>
+      <div className="text-sm font-bold text-gray-900 leading-none">ListifyLab</div>
     </div>
   </div>
 );
@@ -45,7 +44,7 @@ function App() {
     return (
       <div className="min-h-screen bg-white flex flex-col items-center justify-center gap-3">
         <div className="w-8 h-8 bg-slate-900 rounded-xl flex items-center justify-center animate-pulse">
-          <span className="text-white text-xs font-black">C</span>
+          <span className="text-white text-xs font-black">L</span>
         </div>
         <div className="animate-spin rounded-full h-5 w-5 border-2 border-slate-800 border-t-transparent"></div>
       </div>

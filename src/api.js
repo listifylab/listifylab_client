@@ -1,6 +1,8 @@
 // In dev, Vite proxies /api -> http://localhost:5000
-// In prod, configure your server to proxy /api -> backend
-const API_BASE = 'https://listifylab-server.onrender.com/api';
+// In prod, set VITE_API_URL to your Render backend URL (e.g. https://your-app.onrender.com)
+const API_BASE = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}/api`
+  : '/api';
 
 let isRefreshing = false;
 let refreshQueue = [];
@@ -46,7 +48,8 @@ export const apiFetch = async (path, options = {}, _retry = false, _bearerToken 
   }
 
   // Auto-refresh on 401 (expired access token) — retry once with fresh token
-  if (res.status === 401 && !_retry && path !== '/auth/refresh') {
+  // Skip /auth/me and /auth/refresh — a 401 there just means "not logged in"
+  if (res.status === 401 && !_retry && path !== '/auth/refresh' && path !== '/auth/me') {
     if (isRefreshing) {
       // Another request is already refreshing — queue this one
       const token = await new Promise((resolve, reject) =>
