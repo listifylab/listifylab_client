@@ -1,6 +1,6 @@
 // In dev, Vite proxies /api -> http://localhost:5000
 // In prod, configure your server to proxy /api -> backend
-const API_BASE = 'https://listifylab-server.onrender.com';
+const API_BASE = 'https://listifylab-server.onrender.com/api';
 
 let isRefreshing = false;
 let refreshQueue = [];
