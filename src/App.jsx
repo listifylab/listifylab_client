@@ -152,7 +152,7 @@ function App() {
         {page === 'listings'   && <ListingPage refreshKey={refreshKey} />}
         {page === 'create'     && <CreateListingPage onSuccess={() => { setRefreshKey((k) => k + 1); setPage('listings'); }} />}
         {page === 'import'     && <ImportPage onSuccess={() => { setRefreshKey((k) => k + 1); setPage('listings'); }} />}
-        {page === 'cataloging' && <CatalogingPage />}
+        {page === 'cataloging' && <CatalogingPage user={user} />}
         {page === 'admin'      && <AdminPage user={user} />}
       </main>
     </div>

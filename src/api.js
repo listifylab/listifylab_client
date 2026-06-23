@@ -1,8 +1,8 @@
 // In dev, Vite proxies /api -> http://localhost:5000
 // In prod, set VITE_API_URL to your Render backend URL (e.g. https://your-app.onrender.com)
-const API_BASE = import.meta.env.VITE_API_URL
-  ? `${import.meta.env.VITE_API_URL}/api`
-  : '/api';
+// const API_BASE = import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api` : '/api';
+
+const API_BASE = 'http://localhost:5000/api';
 
 let isRefreshing = false;
 let refreshQueue = [];
@@ -52,9 +52,7 @@ export const apiFetch = async (path, options = {}, _retry = false, _bearerToken 
   if (res.status === 401 && !_retry && path !== '/auth/refresh' && path !== '/auth/me') {
     if (isRefreshing) {
       // Another request is already refreshing — queue this one
-      const token = await new Promise((resolve, reject) =>
-        refreshQueue.push({ resolve, reject })
-      );
+      const token = await new Promise((resolve, reject) => refreshQueue.push({ resolve, reject }));
       return apiFetch(path, options, true, token);
     }
 
