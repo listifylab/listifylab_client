@@ -2,7 +2,7 @@
 // In prod, set VITE_API_URL to your Render backend URL (e.g. https://your-app.onrender.com)
 // const API_BASE = import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api` : '/api';
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = 'https://listifylab-server.onrender.com/api';
 
 let isRefreshing = false;
 let refreshQueue = [];
