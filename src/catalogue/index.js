@@ -3,12 +3,12 @@
  * Maps marketplace ID → generators registry
  */
 
-import { MYNTRA_GENERATORS } from './myntra/Files/index.js';
-import { NYKAA_GENERATORS } from './nykaa/Files/index.js';
-import { AJIO_GENERATORS } from './ajio/Files/index.js';
+import { MYNTRA_GENERATORS }   from './myntra/Files/index.js';
+import { NYKAA_GENERATORS }    from './nykaa/Files/index.js';
+import { AJIO_GENERATORS }     from './ajio/Files/index.js';
 import { TATACLIQ_GENERATORS } from './tatacliq/Files/index.js';
-import { SHOPIFY_GENERATORS } from './shopify/Files/index.js';
-import { MYNTRA_SIZE_RANGES } from './myntra/Constants/index.js';
+import { SHOPIFY_GENERATORS }  from './shopify/Files/index.js';
+import { MYNTRA_SIZE_RANGES }  from './myntra/Constants/index.js';
 
 export { MYNTRA_SIZE_RANGES };
 
@@ -22,13 +22,14 @@ export const CATALOGUE_REGISTRY = {
 
 /**
  * Run the listing generator for a given marketplace + category.
+ *
  * @param {string}   marketplaceId  e.g. 'myntra'
  * @param {string}   category       e.g. 'Women Dresses'
  * @param {Object[]} products       fetched product array
  * @param {Object}   sizeMapping    from admin settings
  * @param {string[]} csvHeaders     from uploaded template or default
  * @param {Object}   customMaps     tenant custom mappings
- * @param {Object}   userDetails    { manufacturerDetails, packerDetails } from logged-in user
+ * @param {Object}   userDetails    { manufacturerDetails, packerDetails, tenantName }
  * @returns {number} row count generated
  */
 export function runListingGenerator(

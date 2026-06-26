@@ -1,7 +1,6 @@
 
 import { useState } from 'react';
 import ListingPage from './pages/ListingPage';
-import CreateListingPage from './pages/CreateListingPage';
 import ImportPage from './pages/ImportPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -16,7 +15,6 @@ import './App.css';
 
 const NAV = [
   { id: 'listings',   label: 'Catalogue' },
-  { id: 'create',     label: 'Add Style' },
   { id: 'import',     label: 'CSV Import' },
   { id: 'cataloging', label: 'Cataloging' },
   { id: 'admin',      label: 'Admin' },
@@ -150,7 +148,6 @@ function App() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {page === 'listings'   && <ListingPage refreshKey={refreshKey} />}
-        {page === 'create'     && <CreateListingPage onSuccess={() => { setRefreshKey((k) => k + 1); setPage('listings'); }} />}
         {page === 'import'     && <ImportPage onSuccess={() => { setRefreshKey((k) => k + 1); setPage('listings'); }} />}
         {page === 'cataloging' && <CatalogingPage user={user} />}
         {page === 'admin'      && <AdminPage user={user} />}
