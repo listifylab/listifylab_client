@@ -11,8 +11,7 @@ export const MYNTRA_SIZE_RANGES = {
     'S': 'S',
     'M': 'M',
     'L': 'L',
-    'XL': 'XL',
-    '1XL': '1XL',
+    'XL': '1XL',
     '2XL': '2XL',
     '3XL': '3XL',
     '4XL': '4XL',
@@ -24,8 +23,7 @@ export const MYNTRA_SIZE_RANGES = {
     'S': 'S',
     'M': 'M',
     'L': 'L',
-    'XL': 'XL',
-    '1XL': '1XL',
+    'XL': '1XL',
     '2XL': '2XL',
   },
   's-l': {
@@ -38,7 +36,7 @@ export const MYNTRA_SIZE_RANGES = {
     'S': 'S',
     'M': 'M',
     'L': 'L',
-    'XL': 'XL',
+    'XL': '1XL',
   },
 };
 
@@ -54,9 +52,8 @@ export function getMyntraStandardSize(brandSize = '') {
     'M': 'M',
     'L': 'L',
     'XL': 'XL',
-    '1XL': 'XL',  // Myntra maps 1XL → XL in standard
     '2XL': 'XXL',
-    '3XL': 'XXXL',
+    '3XL': '3XL',
     '4XL': '4XL',
     '5XL': '5XL',
   };

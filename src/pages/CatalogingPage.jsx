@@ -2,39 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { apiFetch } from '../api';
 import { parseCsvHeaders, parseExcelFile, getSheetHeaders, getSheetPreviewRows } from '../catalogue/shared/csvUtils';
 import { runListingGenerator, MYNTRA_SIZE_RANGES } from '../catalogue/index';
-
-// ── Marketplace channel definitions ──────────────────────────────────────────
-const CHANNELS = [
-  {
-    id: 'myntra', name: 'Myntra', accentColor: '#FF3F6C',
-    categories: ['Women Dresses','Women Tops','Women Kurtas','Women Skirts','Women Palazzos','Women Sarees','Women Lehenga','Women Jackets & Coats','Men Shirts','Men T-Shirts','Men Trousers','Men Kurtas','Men Jackets'],
-  },
-  {
-    id: 'nykaa', name: 'Nykaa Fashion', accentColor: '#FC2779',
-    categories: ['Dresses','Tops & Tunics','Kurtas','Skirts','Palazzos','Sarees','Lehenga','Jackets','Coats','Jumpsuits','Co-ord Sets','Loungewear','Activewear'],
-  },
-  {
-    id: 'ajio', name: 'Ajio', accentColor: '#8B2FC9',
-    categories: ['Women Dresses','Women Tops','Women Kurtas','Women Ethnic','Women Western','Men Shirts','Men T-Shirts','Men Ethnic','Men Casual'],
-  },
-  {
-    id: 'tatacliq', name: 'Tata CLiQ', accentColor: '#DC143C',
-    categories: ['All Categories'],
-  },
-  {
-    id: 'amazon', name: 'Amazon', accentColor: '#FF9900',
-    categories: ['Women Clothing','Men Clothing','Girls Clothing','Boys Clothing','Sarees','Kurtas & Kurtis','Western Dresses','Tops & Tees'],
-  },
-  {
-    id: 'flipkart', name: 'Flipkart', accentColor: '#2874F0',
-    categories: ['Women Ethnic','Women Western','Men Ethnic','Men Western','Sarees','Kurtas','Dresses','Tops','Shirts','Trousers'],
-  },
-  {
-    id: 'shopify', name: 'Shopify', accentColor: '#96BF48',
-    categories: ['Women Dresses','Women Tops','Women Kurtas','Women Skirts','Women Palazzos','Women Sarees','Women Lehenga','Women Jackets & Coats','Men Shirts','Men T-Shirts','Men Trousers','Men Kurtas','All Categories'],
-  },
-];
-
+import { CHANNELS } from '../utils/marketplaces';
 // ── Icons ─────────────────────────────────────────────────────────────────────
 const DownloadIcon = () => (
   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

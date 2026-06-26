@@ -1,5 +1,5 @@
 /**
- * Myntra Tops Listing Generator
+ * Myntra Shirt Listing Generator
  */
 
 import {
@@ -43,7 +43,7 @@ export const MYNTRA_TOPS_HEADERS = [
 
 const TOPS_CATEGORY_FILTER = ['top', 'shirt', 'blouse', 't-shirt', 'tee', 'tank', 'crop'];
 
-export function generateMyntraTopsListing(
+export function generateMyntraShirtListing(
   selectedData,
   sizeMapping = MYNTRA_SIZE_MAPPING,
   csvHeaders = MYNTRA_TOPS_HEADERS,
@@ -161,6 +161,6 @@ export function generateMyntraTopsListing(
     throw new Error('No tops-category products found in selected data.');
   }
 
-  downloadCsv('Myntra_Tops_listing.csv', csvHeaders, csvData);
+  downloadCsv('Myntra_Shirt_listing.csv', csvHeaders, csvData);
   return csvData.length;
 }

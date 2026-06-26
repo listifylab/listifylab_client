@@ -6,6 +6,7 @@
 import { generateMyntraDressListing, MYNTRA_DRESS_HEADERS } from './myntra_dress_listing.js';
 import { generateMyntraTopsListing, MYNTRA_TOPS_HEADERS } from './myntra_tops_listing.js';
 import { MYNTRA_SIZE_MAPPING } from '../Constants/index.js';
+import { generateMyntraShirtListing } from './myntra_shirt_listing.js';
 
 export const MYNTRA_GENERATORS = {
   'Women Dresses': {
@@ -21,16 +22,16 @@ export const MYNTRA_GENERATORS = {
     filter: 'top',
   },
   // Stub generators for other categories — they fall back to generic dress generator
-  'Women Kurtas': {
+  'Women Shirt': {
     generate: (data, sizeMap, headers, customMaps) =>
-      generateMyntraDressListing(data, sizeMap, headers, customMaps),
+      generateMyntraShirtListing(data, sizeMap, headers, customMaps),
     defaultHeaders: MYNTRA_DRESS_HEADERS,
-    filename: 'Myntra_Kurtas_listing.csv',
+    filename: 'Myntra_Shirt_listing.csv',
     filter: 'kurta',
   },
   'Women Skirts': {
     generate: (data, sizeMap, headers, customMaps) =>
-      generateMyntraDressListing(data, sizeMap, headers, customMaps),
+      generateMyntraSkirtListing(data, sizeMap, headers, customMaps),
     defaultHeaders: MYNTRA_DRESS_HEADERS,
     filename: 'Myntra_Skirts_listing.csv',
     filter: 'skirt',
@@ -47,3 +48,5 @@ export const MYNTRA_GENERATORS = {
 export { MYNTRA_SIZE_MAPPING };
 export * from './myntra_dress_listing.js';
 export * from './myntra_tops_listing.js';
+export * from './myntra_shirt_listing.js'
+export * from './myntra_skirts_listing.js'

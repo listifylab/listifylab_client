@@ -123,7 +123,7 @@ export function generateShopifyListing(
     const vendor       = get('brand') || userDetails.tenantName || SHOPIFY_DEFAULT_VENDOR;
     const productType  = get('style_type', 'styleType', 'category', 'type') || '';
     const handle       = toHandle(title, styleNumber);
-    const color        = get('stylePrimaryColor', 'primary_color', 'color', 'colour') || '';
+    const color        = get('style_primary_color', 'primary_color', 'color', 'colour') || '';
     const mrp          = get('mrp', 'price', 'selling_price') || '';
     const tags         = buildTags(f, productType);
     const bodyHtml     = buildBody(f);

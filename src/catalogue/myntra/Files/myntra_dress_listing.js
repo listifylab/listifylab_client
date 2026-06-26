@@ -166,7 +166,7 @@ export function generateMyntraDressListing(
       return '';
     };
 
-    const prominentColor = getColor(get('stylePrimaryColor', 'primary_color', 'color', 'colour'));
+    const prominentColor = getColor(get('style_primary_color','stylePrimaryColor', 'primary_color', 'color', 'colour'));
     const season = mapSeason(get('season'));
     const mappedFabric = mapMyntraFabric(get('fabric', 'fabric_type', 'material'));
     const mappedFabricType = mapMyntraFabricType(get('fabric', 'fabric_type', 'material'));
@@ -187,7 +187,7 @@ export function generateMyntraDressListing(
       return {
         styleId: '',
         styleGroupId: styleGroupId,
-        vendorSkuCode: `${product.styleNumber}-${get('stylePrimaryColor', 'color', 'colour') || 'NA'}-${mappedSize}`,
+        vendorSkuCode: `${product.styleNumber}-${get('style_primary_color', 'color', 'colour') || 'NA'}-${mappedSize}`,
         vendorArticleNumber: product.styleNumber || '',
         vendorArticleName: get('styleName', 'style_name', 'product_name', 'name') || '',
         brand: get('brand') || userDetails.tenantName || MYNTRA_BRAND_DEFAULTS.brand,

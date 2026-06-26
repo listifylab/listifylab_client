@@ -1,5 +1,5 @@
 /**
- * Myntra Tops Listing Generator
+ * Myntra Shirt Listing Generator
  */
 
 import {
@@ -13,7 +13,7 @@ import {
 } from '../Constants/index.js';
 import { downloadCsv } from '../../shared/csvUtils.js';
 
-export const MYNTRA_TOPS_HEADERS = [
+export const MYNTRA_SKIRT_HEADERS = [
   'styleId', 'styleGroupId', 'vendorSkuCode', 'vendorArticleNumber',
   'vendorArticleName', 'brand',
   'Manufacturer Name and Address with Pincode',
@@ -43,10 +43,10 @@ export const MYNTRA_TOPS_HEADERS = [
 
 const TOPS_CATEGORY_FILTER = ['top', 'shirt', 'blouse', 't-shirt', 'tee', 'tank', 'crop'];
 
-export function generateMyntraTopsListing(
+export function generateMyntraSkirtListing(
   selectedData,
   sizeMapping = MYNTRA_SIZE_MAPPING,
-  csvHeaders = MYNTRA_TOPS_HEADERS,
+  csvHeaders = MYNTRA_SKIRT_HEADERS,
   customMaps = {},
   userDetails = {}
 ) {
@@ -161,6 +161,6 @@ export function generateMyntraTopsListing(
     throw new Error('No tops-category products found in selected data.');
   }
 
-  downloadCsv('Myntra_Tops_listing.csv', csvHeaders, csvData);
+  downloadCsv('Myntra_Skirt_listing.csv', csvHeaders, csvData);
   return csvData.length;
 }
