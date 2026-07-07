@@ -1,26 +1,37 @@
-/**
- * Nykaa Fashion listing generators
- * TODO: Add Nykaa-specific template generators per category.
- * Currently delegates to Myntra generators as a placeholder.
- */
-import { generateMyntraDressListing, MYNTRA_DRESS_HEADERS } from '../../myntra/Files/myntra_dress_listing.js';
-import { generateMyntraTopsListing, MYNTRA_TOPS_HEADERS } from '../../myntra/Files/myntra_tops_listing.js';
-import { NYKAA_SIZE_MAPPING } from '../Constants/index.js';
+import { NYAKAA_GLOBAL_HEADERS, NYKAA_SIZE_MAPPING } from '../Constants/index.js';
 import { downloadCsv } from '../../shared/csvUtils.js';
+import generateNykaaDressListing from './Nykaa_Dresses_Listing.js';
+import generateNykaaTopsListing from './Nykaa_Tops_Listing.js';
+import { getCategoryHeaders } from './categoryTemplateStore.js';
 
 export const NYKAA_GENERATORS = {
-  'Dresses': {
+  Dresses: {
     generate: (data, sizeMap, headers, customMaps) =>
-      generateMyntraDressListing(data, sizeMap || NYKAA_SIZE_MAPPING, headers, customMaps),
-    defaultHeaders: MYNTRA_DRESS_HEADERS,
+      generateNykaaDressListing(data, sizeMap || NYKAA_SIZE_MAPPING, headers, customMaps),
+    defaultHeaders: NYAKAA_GLOBAL_HEADERS,
     filename: 'Nykaa_Dress_listing.csv',
+    filter: 'dress',
   },
-  'Tops & Tunics': {
+  Tops: {
     generate: (data, sizeMap, headers, customMaps) =>
-      generateMyntraTopsListing(data, sizeMap || NYKAA_SIZE_MAPPING, headers, customMaps),
-    defaultHeaders: MYNTRA_TOPS_HEADERS,
+      generateNykaaTopsListing(data, sizeMap || NYKAA_SIZE_MAPPING, headers, customMaps),
+    defaultHeaders: NYAKAA_GLOBAL_HEADERS,
     filename: 'Nykaa_Tops_listing.csv',
+    filter: 'top',
   },
 };
 
+export const downloadNykaaListing = (category, selectedData, customMaps) => {
+  const config = NYKAA_GENERATORS[category];
+  if (!config) {
+    throw new Error(`No generator registered for "${category}"`);
+  }
+
+  const headers = getCategoryHeaders(category) || config.defaultHeaders;
+  config.generate(selectedData, NYKAA_SIZE_MAPPING, headers, customMaps);
+};
+
 export { NYKAA_SIZE_MAPPING };
+
+export * from './Nykaa_Dresses_Listing.js';
+export * from './Nykaa_Tops_Listing.js';

@@ -1,6 +1,6 @@
 /**
- * Myntra Dress Listing Generator
- * Generates a Myntra-compatible listing CSV for Dress category products.
+ * Myntra Coat Listing Generator
+ * Generates a Myntra-compatible listing CSV for Coat category products.
  */
 
 import {
@@ -23,8 +23,8 @@ import {
 } from '../Constants/index.js';
 import { downloadCsv } from '../../shared/csvUtils.js';
 
-// Default CSV headers matching Myntra's dress template
-export const MYNTRA_DRESS_HEADERS = [
+// Default CSV headers matching Myntra's coat    template
+export const MYNTRA_COAT_HEADERS = [
   'styleId',
   'styleGroupId',
   'vendorSkuCode',
@@ -130,10 +130,10 @@ export const MYNTRA_DRESS_HEADERS = [
  * @param {string[]} csvHeaders   - headers to use (from uploaded template or default)
  * @param {Object}   customMaps   - tenant custom mappings { color: {}, fabric: {} ... }
  */
-export function generateMyntraDressListing(
+export function generateMyntraCoatListing(
   selectedData,
   sizeMapping = MYNTRA_SIZE_MAPPING,
-  csvHeaders = MYNTRA_DRESS_HEADERS,
+  csvHeaders = MYNTRA_COAT_HEADERS,
   customMaps = {},
   userDetails = {}
 ) {
@@ -146,20 +146,13 @@ export function generateMyntraDressListing(
 
   const sizes = Object.keys(sizeMapping);
 
-  const dressCategoryFilter = (product) => {
+  const coatCategoryFilter = (product) => {
     const f = product.fields || {};
     const type = (f.style_type || f.styleType || f.category || f.type || '').toLowerCase();
-    return (
-      type.includes('dress') ||
-      type.includes('kaftan') ||
-      type.includes('shirt dress') ||
-      type.includes('maxi') ||
-      type.includes('mini') ||
-      type.includes('midi')
-    );
+    return type.includes('coat') || type.includes('coats');
   };
 
-  const csvData = selectedData.filter(dressCategoryFilter).flatMap((product, index) => {
+  const csvData = selectedData.filter(coatCategoryFilter).flatMap((product, index) => {
     const f = product.fields || {};
     const get = (...keys) => {
       for (const k of keys) if (f[k]) return f[k];
@@ -201,13 +194,13 @@ export function generateMyntraDressListing(
         'Country Of Origin3': '',
         'Country Of Origin4': '',
         'Country Of Origin5': '',
-        articleType: 'Dresses',
+        articleType: 'Blazers',
         'Brand Size': mappedSize,
         'Standard Size': getMyntraStandardSize(mappedSize),
         'is Standard Size present on Label': 'Yes',
         'Brand Colour (Remarks)': get('stylePrimaryColor', 'primary_color', 'color') || '',
         GTIN: '',
-        HSN: getMyntraHSN('Dresses'),
+        HSN: getMyntraHSN('Blazers'),
         SKUCode: '',
         MRP: get('mrp', 'price', 'selling_price') || '',
         AgeGroup: 'Adults-Women',
@@ -264,7 +257,7 @@ export function generateMyntraDressListing(
         'Style Tip': '',
         'Care for me': '',
         'Collection Name': '',
-        'Package Contains': '1 Dress',
+        'Package Contains': '1 Coat',
         'BIS Expiry Date': '',
         'BIS Certificate Image URL': '',
         'BIS Certificate Number': '',
@@ -291,9 +284,9 @@ export function generateMyntraDressListing(
   });
 
   if (csvData.length === 0) {
-    throw new Error('No dress-category products found in selected data.');
+    throw new Error('No coat-category products found in selected data.');
   }
 
-  downloadCsv('Myntra_Dress_listing.csv', csvHeaders, csvData);
+  downloadCsv('Myntra_Coats_listing.csv', csvHeaders, csvData);
   return csvData.length;
 }
