@@ -2,14 +2,14 @@ import { NYKAA_SIZE_MAPPING } from '../Constants/index.js';
 import { downloadCsv } from '../../shared/csvUtils.js';
 import { resolveField } from './nykaaFieldResolvers.js';
 
-const generateNykaaTopsListing = (selectedData, sizeMap, headers, customMaps) => {
+const generateNykaaShirtsListing = (selectedData, sizeMap, headers, customMaps) => {
   const sizeMapping = sizeMap || NYKAA_SIZE_MAPPING;
   const sizes = Object.keys(sizeMapping);
 
   const csvData = selectedData
     .filter((product) => {
       const styleType = product.fields?.style_type?.toLowerCase() || '';
-      return styleType === 'top' || styleType === 'tops' || styleType.includes('crop top');
+      return styleType === 'shirt' || styleType === 'shirts';
     })
     .flatMap((product) => {
       const f = product.fields || {};
@@ -26,7 +26,7 @@ const generateNykaaTopsListing = (selectedData, sizeMap, headers, customMaps) =>
       });
     });
 
-  downloadCsv('Nykaa_Tops_listing.csv', headers, csvData);
+  downloadCsv('Nykaa_Shirts_listing.csv', headers, csvData);
 };
 
-export default generateNykaaTopsListing;
+export default generateNykaaShirtsListing;

@@ -17,12 +17,16 @@ import {
 export const SHOPIFY_PRODUCT_HEADERS = [
   'Handle',
   'Title',
+  'Command',
   'Body (HTML)',
   'Vendor',
   'Product Category',
   'Type',
   'Tags',
+  'Tags Command',
   'Published',
+  'Published At',
+  'Published Scope',
   'Option1 Name',
   'Option1 Value',
   'Option2 Name',
@@ -75,6 +79,7 @@ function buildTags(f, category) {
     f.occasion,
     f.season,
     f.prints || f.pattern,
+    'New Arrival',
   ].filter(Boolean);
   return [...new Set(parts)].join(', ');
 }
@@ -84,12 +89,17 @@ function buildTags(f, category) {
  */
 function buildBody(f) {
   const lines = [];
-  if (f.fabric || f.fabric_type || f.material) lines.push(`<p><strong>Fabric:</strong> ${f.fabric || f.fabric_type || f.material}</p>`);
+  if (f.fabric || f.fabric_type || f.material)
+    lines.push(`<p><strong>Fabric:</strong> ${f.fabric || f.fabric_type || f.material}</p>`);
   if (f.occasion) lines.push(`<p><strong>Occasion:</strong> ${f.occasion}</p>`);
-  if (f.neckStyle || f.neck_style) lines.push(`<p><strong>Neck Style:</strong> ${f.neckStyle || f.neck_style}</p>`);
-  if (f.sleeveLength || f.sleeve_length) lines.push(`<p><strong>Sleeve Length:</strong> ${f.sleeveLength || f.sleeve_length}</p>`);
-  if (f.washCare || f.wash_care) lines.push(`<p><strong>Care:</strong> ${f.washCare || f.wash_care}</p>`);
-  if (f.description || f.product_description) lines.push(`<p>${f.description || f.product_description}</p>`);
+  if (f.neckStyle || f.neck_style)
+    lines.push(`<p><strong>Neck Style:</strong> ${f.neckStyle || f.neck_style}</p>`);
+  if (f.sleeveLength || f.sleeve_length)
+    lines.push(`<p><strong>Sleeve Length:</strong> ${f.sleeveLength || f.sleeve_length}</p>`);
+  if (f.washCare || f.wash_care)
+    lines.push(`<p><strong>Care:</strong> ${f.washCare || f.wash_care}</p>`);
+  if (f.description || f.product_description)
+    lines.push(`<p>${f.description || f.product_description}</p>`);
   return lines.join('\n');
 }
 
@@ -109,27 +119,30 @@ export function generateShopifyListing(
   userDetails = {}
 ) {
   const sizes = Object.keys(sizeMapping);
-  const manufacturer = userDetails.manufacturerDetails || SHOPIFY_DEFAULT_VENDOR;
-  const packer       = userDetails.packerDetails       || SHOPIFY_DEFAULT_VENDOR;
+  const manufacturer = userDetails.manufacturerDetails || '';
+  const packer = userDetails.packerDetails || '';
 
   const rows = [];
 
   selectedData.forEach((product) => {
     const f = product.fields || {};
-    const get = (...keys) => { for (const k of keys) if (f[k]) return f[k]; return ''; };
+    const get = (...keys) => {
+      for (const k of keys) if (f[k]) return f[k];
+      return '';
+    };
 
-    const styleNumber  = product.styleNumber || '';
-    const title        = get('styleName', 'style_name', 'product_name', 'name') || styleNumber;
-    const vendor       = get('brand') || userDetails.tenantName || SHOPIFY_DEFAULT_VENDOR;
-    const productType  = get('style_type', 'styleType', 'category', 'type') || '';
-    const handle       = toHandle(title, styleNumber);
-    const color        = get('style_primary_color', 'primary_color', 'color', 'colour') || '';
-    const mrp          = get('mrp', 'price', 'selling_price') || '';
-    const tags         = buildTags(f, productType);
-    const bodyHtml     = buildBody(f);
-    const imageUrl     = get('frontImage', 'front_image', 'image_url', 'image') || '';
-    const seoTitle     = title;
-    const seoDesc      = `${title} — ${color}`.replace(/^ — $/, '');
+    const styleNumber = product.styleNumber || '';
+    const title = get('styleName', 'style_name', 'product_name', 'name') || styleNumber;
+    const vendor = get('brand') || userDetails.tenantName;
+    const productType = get('style_type', 'styleType', 'category', 'type') || '';
+    const handle = toHandle(title, styleNumber);
+    const color = get('style_primary_color', 'primary_color', 'color', 'colour') || '';
+    const mrp = get('mrp', 'price', 'selling_price') || '';
+    const tags = buildTags(f, productType);
+    const bodyHtml = buildBody(f);
+    const imageUrl = get('frontImage', 'front_image', 'image_url', 'image') || '';
+    const seoTitle = title;
+    const seoDesc = `${title} — ${color}`.replace(/^ — $/, '');
 
     sizes.forEach((size, sizeIdx) => {
       const mappedSize = sizeMapping[size] || size;
@@ -137,38 +150,42 @@ export function generateShopifyListing(
       const isFirstRow = sizeIdx === 0;
 
       rows.push({
-        Handle:                         handle,
-        Title:                          isFirstRow ? title : '',
-        'Body (HTML)':                  isFirstRow ? bodyHtml : '',
-        Vendor:                         isFirstRow ? vendor : '',
-        'Product Category':             isFirstRow ? productType : '',
-        Type:                           isFirstRow ? productType : '',
-        Tags:                           isFirstRow ? tags : '',
-        Published:                      isFirstRow ? 'true' : '',
-        'Option1 Name':                 isFirstRow ? 'Size' : '',
-        'Option1 Value':                mappedSize,
-        'Option2 Name':                 isFirstRow ? 'Color' : '',
-        'Option2 Value':                color,
-        'Variant SKU':                  sku,
-        'Variant Grams':                '300',
-        'Variant Inventory Tracker':    SHOPIFY_INVENTORY_TRACKER,
-        'Variant Inventory Qty':        '10',
-        'Variant Inventory Policy':     SHOPIFY_INVENTORY_POLICY,
-        'Variant Fulfillment Service':  SHOPIFY_FULFILLMENT_SERVICE,
-        'Variant Price':                mrp,
-        'Variant Compare At Price':     '',
-        'Variant Requires Shipping':    'true',
-        'Variant Taxable':              'true',
-        'Image Src':                    isFirstRow ? imageUrl : '',
-        'Image Position':               isFirstRow ? '1' : '',
-        'Image Alt Text':               isFirstRow ? title : '',
-        'Gift Card':                    'false',
-        'SEO Title':                    isFirstRow ? seoTitle : '',
-        'SEO Description':              isFirstRow ? seoDesc : '',
-        Status:                         'active',
-        Manufacturer:                   isFirstRow ? manufacturer : '',
-        Packer:                         isFirstRow ? packer : '',
-        'Country of Origin':            isFirstRow ? 'India' : '',
+        Handle: handle,
+        Command: 'MERGE',
+        Title: isFirstRow ? title : '',
+        'Body (HTML)': isFirstRow ? bodyHtml : '',
+        Vendor: isFirstRow ? vendor : '',
+        'Product Category': isFirstRow ? productType : '',
+        Type: isFirstRow ? productType : '',
+        Tags: isFirstRow ? tags : '',
+        'Tags Command': '',
+        Published: isFirstRow ? 'true' : '',
+        'Published At': '',
+        'Published Scope': '',
+        'Option1 Name': isFirstRow ? 'Size' : '',
+        'Option1 Value': mappedSize,
+        'Option2 Name': isFirstRow ? 'Color' : '',
+        'Option2 Value': color,
+        'Variant SKU': sku,
+        'Variant Grams': '300',
+        'Variant Inventory Tracker': SHOPIFY_INVENTORY_TRACKER,
+        'Variant Inventory Qty': '10',
+        'Variant Inventory Policy': SHOPIFY_INVENTORY_POLICY,
+        'Variant Fulfillment Service': SHOPIFY_FULFILLMENT_SERVICE,
+        'Variant Price': mrp,
+        'Variant Compare At Price': mrp,
+        'Variant Requires Shipping': 'true',
+        'Variant Taxable': 'true',
+        'Image Src': isFirstRow ? imageUrl : '',
+        'Image Position': isFirstRow ? '1' : '',
+        'Image Alt Text': isFirstRow ? title : '',
+        'Gift Card': 'false',
+        'SEO Title': isFirstRow ? seoTitle : '',
+        'SEO Description': isFirstRow ? seoDesc : '',
+        Status: 'active',
+        Manufacturer: isFirstRow ? manufacturer : '',
+        Packer: isFirstRow ? packer : '',
+        'Country of Origin': isFirstRow ? 'India' : '',
       });
     });
   });
